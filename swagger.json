@@ -1,0 +1,110 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Movie recommendation API",
+        "description": "Movie recommendation API documentation"
+        
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/",
+    "tags": [
+        {
+            "name": "Movie",
+            "description": "Find movies"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/find-movie": {
+            "post": {
+                "tags": [
+                    "Movie"
+                ],
+                "description": "Find movie recommendation accorrding to the genre and time.",
+                "parameters": [
+                    {
+                        "name": "x-access-token",
+                        "in": "header",
+                        "description": "Authentication token : <strong>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</strong>",
+                        "required":true,
+                        "schema": {
+                            "$ref": "#/definitions/TokenRequired"
+                        }
+                    },
+                    {
+                        "name": "Parameters",
+                        "in": "body",
+                        "required":true,
+                        "schema": {
+                            "$ref": "#/definitions/movie"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "movie": {
+            "required": [
+                "genre",
+                "time"
+            ],
+            "properties": {
+                "genre": {
+                    "type": "string",
+                    "example":"Comedy"
+                },     
+                "time": {
+                    "type": "string",
+                    "example":"07:15"
+                }
+            }
+        },
+        "TokenRequired": {
+            "required": [
+                "x-access-token"
+            ],
+            "properties": {
+                "x-access-token": {
+                    "type": "string",
+                    "example":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                }
+            }
+        },
+        "Response":{
+            "properties": {
+                "response_code": {
+                    "type": "number",
+                    "example":"1=success, 0=error, -1=auth error"
+                },
+                "response_msg": {
+                    "type": "string",
+                    "example":"Success"
+                },
+                "data": {
+                    "type": "array",
+                    "example":"[Array]"
+                }
+            }
+        }    
+    }
+}
